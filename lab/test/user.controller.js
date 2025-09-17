@@ -41,6 +41,25 @@ describe('User', () => {
     //   // Warning: the user already exists
     //   done()
     // })
+    
+    it('avoid creating an existing user', (done) => {
+  const user = { username: 'mazi', firstname: 'liam', lastname: 'MAZIER' }
+
+  userController.create(user, (err, result) => {
+    expect(err).to.be.null
+    expect(result).to.equal('OK')
+
+    // Only now try to create the same user again
+    userController.create(user, (err, result) => {
+      expect(err).to.not.be.null
+      expect(err.message).to.equal('User already exists')
+      expect(result).to.be.null
+      done()
+    })
+  })
+})
+
+
   })
 
   // TODO Create test for the get method

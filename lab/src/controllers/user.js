@@ -3,9 +3,11 @@ const db = require('../dbClient')
 module.exports = {
   create: (user, callback) => {
     // Check parameters
-    if(!user.username)
+    if (!user.username) {
       return callback(new Error("Wrong user parameters"), null)
-    // Create User schema
+    }
+
+    // User schema
     const userObj = {
       firstname: user.firstname,
       lastname: user.lastname,
