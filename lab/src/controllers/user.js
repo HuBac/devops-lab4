@@ -13,10 +13,18 @@ module.exports = {
       lastname: user.lastname,
     }
     // Save to DB
-    // TODO check if user already exists
-    db.hmset(user.username, userObj, (err, res) => {
+     db.exists(user.username, (err, exists) => {
       if (err) return callback(err, null)
-      callback(null, res) // Return callback
+
+      if (exists) {
+        return callback(new Error("User already exists"), null)
+      }
+
+      // Save new user
+      db.hmset(user.username, userObj, (err, res) => {
+        if (err) return callback(err, null)
+        callback(null, res) // "OK"
+      })
     })
   },
   get: (username, callback) => {
