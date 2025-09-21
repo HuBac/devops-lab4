@@ -95,6 +95,15 @@ describe("User", () => {
         });
         done();
       });
+
+      it("cannot get a user when it does not exist", (done) => {
+        // Chech with any invalid user
+        userController.get("test_not_existing", (err, result) => {
+          expect(err).to.not.be.equal(null);
+          expect(result).to.deep.equal(null);
+          done();
+        });
+      });
     });
   });
 });
